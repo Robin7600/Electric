@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>CSV Viewer</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  th, td { border: 1px solid #ccc; padding: 8px; }
+  th { background: #f5f5f5; }
+</style>
+</head>
+<body>
+
+<h2>ข้อมูลจากไฟล์ CSV</h2>
+<table id="table"></table>
+
+<script>
+async function loadCSV() {
+  const res = await fetch('data.csv');
+  const text = await res.text();
+  const rows = text.trim().split('\n').map(r => r.split(','));
+
+  let html = '<tr>' + rows[0].map(h => `<th>${h}</th>`).join('') + '</tr>';
+  for (let i = 1; i < rows.length; i++) {
+    html += '<tr>' + rows[i].map(c => `<td>${c}</td>`).join('') + '</tr>';
+  }
+  document.getElementById('table').innerHTML = html;
+}
+loadCSV();
+</script>
+
+</body>
+</html>
